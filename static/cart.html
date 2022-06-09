@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset=utf-8>
+  <title>Cart - RandoStore</title>
+  <link href="./css//app.css" rel="stylesheet"/>
+</head>
+<body>
+
+  <div id="header">
+      <a class="logo">RandoStore</a>
+      <ul class="menu">
+        <li class="primary"><a href="./"> Back to Home</a></li>
+      </ul>
+  </div>
+  <div id="content">
+      <h1 class="page-title">Cart</h1>
+      <table class="cart-items">
+        <thead>
+          <th>Item</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Total</th>
+        </thead>
+        <tbody>
+          <tr class="cart-item">
+          </tr>
+        </tbody>
+      </table>
+  </div>
+</body>
+
+<script src="./js/utils.js"></script>
+<script src="./js/events.js"></script>
+<script src="./js/cart.js"></script>
+
+
+<script>
+  function renderItems(){
+    document.querySelector(".cart-items tbody").innerHTML = "";
+    _cart.items.forEach(item => {
+      const cartItem = document.createElement("tr");
+      cartItem.setAttribute("class", "cart-item");
+      cartItem.setAttribute("data-id", item.id);
+
+      const preview = document.createElement("td");
+      preview.setAttribute("class", "item");
+      const image = document.createElement("img");
+      image.setAttribute("src", item.img);
+      preview.appendChild(image)
+      const title = document.createElement("h4");
+      title.innerHTML = item.name;
+      preview.appendChild(title);
+      cartItem.appendChild(preview);
+
+      const price = document.createElement("td");
+      price.innerHTML = `${item.price} PKR`;
+      cartItem.appendChild(price);
+
+
+      const qty = document.createElement("td");
+      qty.innerHTML = `<button class="qtyButton" onclick="_cart.setQuantity(${item.id}, 'dec');">-</button>&nbsp;${item.qty}&nbsp;<button onclick="_cart.setQuantity(${item.id}, 'inc');" class="qtyButton">+</button>`;
+      cartItem.appendChild(qty);
+
+
+      const total = document.createElement("td");
+      total.innerHTML = `${item.price * item.qty} PKR`;
+      cartItem.appendChild(total);
+
+
+      const removeButton = document.createElement("td");
+      removeButton.innerHTML = `<button style="background:red;color: #fff;" onclick="_cart.toggleItem(${item.id})"> remove </button>`;
+      cartItem.appendChild(removeButton);
+
+      document.querySelector(".cart-items tbody").appendChild(cartItem);
+    });
+  }
+
+  _cart.onChange = () => {
+    renderItems();
+  };
+  renderItems();
+</script>
+
+
+
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset=utf-8>
+  <title>RandoStore</title>
+  <link href="./css//app.css" rel="stylesheet"/>
+
+</head>
+<body>
+  <div id="header">
+      <a class="logo">RandoStore</a>
+
+      <div class="search">
+        <input type="text" placeholder="Search Items..." onkeyup="renderItems();"/>
+      </div>
+
+      <ul class="menu">
+        <li><a href="./cart.html"> Cart <span class="cart-count"></span></a></li>
+        <li class="primary"><a href="./add-items.html"> Add New Item</a></li>
+      </ul>
+  </div>
+  
+  <div id="content" style="display: flex; flex-direction:row;">
+    <div class="sidebar">
+      <h4>Sort By</h4>
+      <select class="sort-by" onchange="renderItems();">
+        <option value="">---</option>
+        <option value="name">Name</option>
+        <option value="price">Price</option>
+      </select>
+    </div>
+    <div class="items-grid">
+    </div>
+  </div>
+</body>
+
+<script src="./js/utils.js"></script>
+<script src="./js/events.js"></script>
+<script src="./js//cart.js"></script>
+
+<script>
+  var items = [];
+
+  /// Fetch Items from API
+  function fetchItems(){
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            items = JSON.parse(xhr.responseText);
+            renderItems();
+          }
+      };
+      xhr.open("GET", "/items");
+      xhr.send();
+  }
+  
+  /// Listner for new Items
+  _events.on("item_add", fetchItems);
+
+  /// Filter & Sort Items
+  function filterItems(items){
+    
+    /// Filter By Name
+    var searchInput = document.querySelector(".search input");
+    if(searchInput.value.length){
+      items = items.filter(item => item.name.toLowerCase().startsWith(searchInput.value));
+    }
+    /// Sorting
+    var sortBy = document.querySelector(".sort-by");
+    if(sortBy.value == "price"){
+      items = items.sort((a, b) =>  a.price - b.price);
+    }else if(sortBy.value == "name"){
+      items = items.sort(function(a, b){
+          if(a.name < b.name) { return -1; }
+          if(a.name > b.name) { return 1; }
+          return 0;
+      });
+    }
+    return items;
+  }
+  
+  /// Render Items
+  function renderItems(){
+    document.querySelector(".items-grid").innerHTML = "";
+
+    filterItems(items).forEach((item) => {
+      const ItemBlock = document.createElement("div");
+      ItemBlock.setAttribute("class", "item-block");
+
+      const thumbnail = document.createElement("img");
+      thumbnail.setAttribute("class", "thumbnail");
+      thumbnail.setAttribute("src", item.img);
+      ItemBlock.appendChild(thumbnail);
+
+      const title = document.createElement("h3")
+      title.setAttribute("class", "title");
+      title.innerHTML = item.name;
+      ItemBlock.appendChild(title);
+
+      const price = document.createElement("p")
+      price.setAttribute("class", "price");
+      price.innerHTML = `${item.price} PKR`;
+      ItemBlock.appendChild(price);
+
+      const cartButton = document.createElement("button");
+      const inCart = _cart.itemExists(item.id);
+      cartButton.addEventListener("click", (event) => {
+        _cart.toggleItem(item)
+        event.target.innerHTML = _cart.itemExists(item.id) !== false ? "remove from cart" : "add to cart";
+      });
+      cartButton.innerHTML = inCart !== false ? "remove from cart" : "add to cart";
+      ItemBlock.appendChild(cartButton);
+      document.querySelector(".items-grid").appendChild(ItemBlock);
+    });
+  }
+
+
+  fetchItems();
+
+</script>
+
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset=utf-8>
+  <title>Add new Item - RandoStore</title>
+  <link href="./css//app.css" rel="stylesheet"/>
+
+</head>
+<body>
+
+  <div id="header">
+      <a class="logo">RandoStore</a>
+      <ul class="menu">
+        <li class="primary"><a href="./"> Back to Home</a></li>
+      </ul>
+  </div>
+  
+  <div id="content">
+      <h1 class="page-title">Add new Item</h1>
+      <form id="addFrom" style="width: 60%">
+        <div class="response"></div>
+        <div class="form-group">
+          <lable for="name">Name</lable>
+          <input type="text" name="name"/>
+        </div>
+        <div class="form-group">
+          <lable for="name">Price</lable>
+          <input type="text" name="price" value="0"/>
+        </div>
+        <div class="form-group">
+          <lable for="name">Image</lable>
+          <input type="text" name="img"/>
+        </div>
+        <button type="button" onclick="addItem();" class="primary">Save</button>
+      </form>
+  </div>
+</body>
+
+<script src="./js/utils.js"></script>
+<script src="./js/events.js"></script>
+<script src="./js/cart.js"></script>
+
+<script>
+
+  const addItemForm = document.querySelector("#addFrom");
+
+  function addItem(event){
+
+    const name = addItemForm.querySelector("input[name=name]");
+    const price = addItemForm.querySelector("input[name=price]");
+    const img = addItemForm.querySelector("input[name=img]")
+
+    if(!name.value.length) return alert("Item Name is required!");
+    if(!price.value || isNaN(price.value) || price.value < 1) return alert("Item Price is required!");
+    if(!img.value) return alert("Item Image is required!");
+
+    const data = new URLSearchParams();
+    data.append("name", name.value);
+    data.append("price", price.value);
+    data.append("img", img.value);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/items', true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.onload = function () {
+        const response =  JSON.parse(this.responseText);
+        if(response.id){
+          alert(`item '${name.value}' added!`);
+          _events.emit("item_add");
+          name.value = "";
+          price.value = "";
+          img.value = "";
+        }else{
+          alert("Item Adding Failed");
+        }
+    };
+    xhr.send(data);
+  }
+</script>
+
+</html>
