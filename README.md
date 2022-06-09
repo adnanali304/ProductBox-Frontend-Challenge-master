@@ -7,9 +7,8 @@ Cart
 --------
 - Add items 
 - Remove Items
-- Increase or Description item quantity
+- Modify item quantity
 - Realtime update across multiple tabs & windows when cart is update!
-
 
 Items
 --------
