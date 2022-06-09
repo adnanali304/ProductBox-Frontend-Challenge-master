@@ -18,4 +18,4 @@ Items
 
 Events
 --------
-I create a custom Events Emitter for cross-tabs & cross-windows communication! which is attached to BroadcastChannel.
+I create a custom Events Emitter for browser cross-tabs & cross-windows communication! which is attached to BroadcastChannel.
