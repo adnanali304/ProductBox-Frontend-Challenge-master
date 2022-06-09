@@ -8,14 +8,14 @@ Cart
 - Add items 
 - Remove Items
 - Modify item quantity
-- Real-time update across multiple tabs & windows when the cart is updated!
+- Real-time update when the cart is updated!
 
 Items
 --------
 - List Items,
 - Sort By (Name, Price)
 - Add Items
-- Real-time update across multiple tabs & windows when a new Item is added!
+- Real-time update  when a new Item is added!
 
 Events
 --------
