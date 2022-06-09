@@ -1,17 +1,21 @@
 Productbox Frontend Code Challenge
 ==================================
 
-Hello! Your task is to create RandoStore; an online store where anyone can put up any random item up for sale and anyone else can buy it.
+No third-party framework or library is used!
 
 Cart
 --------
 - Add items 
 - Remove Items
 - Modify item quantity
-- Realtime update across multiple tabs & windows when cart is update!
+- Real-time update across multiple tabs & windows when the cart is updated!
 
 Items
 --------
 - List Items,
 - Add Items
-- Realtime update across multiple tabs & windows when a new Item is add!
+- Real-time update across multiple tabs & windows when a new Item is added!
+
+Events
+--------
+I create a custom Events Emitter for cross-tabs & cross-windows communication! which is attached to BroadcastChannel.
