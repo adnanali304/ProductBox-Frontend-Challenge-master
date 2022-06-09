@@ -13,6 +13,7 @@ Cart
 Items
 --------
 - List Items,
+- Sort By (Name, Price)
 - Add Items
 - Real-time update across multiple tabs & windows when a new Item is added!
 
