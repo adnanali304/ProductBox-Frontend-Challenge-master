@@ -17,6 +17,7 @@ Items
 - Add Items
 - Real-time update  when a new Item is added!
 
-Events
+
+js/events.js
 --------
 I create a custom Events Emitter for browser cross-tabs & cross-windows communication! which is attached to BroadcastChannel.
